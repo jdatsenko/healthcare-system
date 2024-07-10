@@ -6,6 +6,7 @@ import { z } from "zod";
 import SubmitButton from "@/components/SubmitButton";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/actions/patient.action";
 import {
   Form,
   FormControl,
@@ -51,13 +52,16 @@ const PatientForm = () => {
     setIsLoading(true);
 
     try {
-      // const userData = {
-      //   name,
-      //   email,
-      //   phone,
-      // };
-      // const user = await createUser(userData);
-      // if(user) router.push(`/patients/${user.id}/register`)
+      const user = {
+        name,
+        email,
+        phone,
+      };
+      const newUser = await createUser(user);
+
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
     } catch (error) {
       console.log(error);
     }
