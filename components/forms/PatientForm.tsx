@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import SubmitButton from "@/components/SubmitButton";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CustomFormField from "../CustomFormField";
-
+import { useState } from "react";
 export enum FormFieldType {
   INPUT = "input",
   TEXTAREA = "textarea",
@@ -34,7 +34,8 @@ const formSchema = z.object({
 });
 
 const PatientForm = () => {
-  // 1. Define your form.
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,10 +43,7 @@ const PatientForm = () => {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
@@ -63,10 +61,9 @@ const PatientForm = () => {
           name="name"
           label="Full name"
           placeholder="Vika Sh"
-          iconSrc = "assets/icons/user.svg"
-          iconAlt = "user"
+          iconSrc="assets/icons/user.svg"
+          iconAlt="user"
         />
-
 
         <CustomFormField
           fieldType={FormFieldType.INPUT}
@@ -74,12 +71,11 @@ const PatientForm = () => {
           name="email"
           label="Email"
           placeholder="vikash@gmail.com"
-          iconSrc = "assets/icons/email.svg"
-          iconAlt = "email"
+          iconSrc="assets/icons/email.svg"
+          iconAlt="email"
         />
 
-
-<CustomFormField
+        <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
@@ -87,8 +83,7 @@ const PatientForm = () => {
           placeholder="(555) 123-4567"
         />
 
-
-        <Button type="submit">Submit</Button>
+        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
   );
