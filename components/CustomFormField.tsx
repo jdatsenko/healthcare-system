@@ -19,6 +19,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { render } from "react-dom";
 import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "./ui/select";
+import { Textarea } from "./ui/textarea";
 
 interface CustomProps {
   control: Control<any>;
@@ -128,7 +129,19 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
 
           </FormControl>
         );
-    default:
+    
+    case FormFieldType.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            className="shad-textarea"
+            disabled={props.disabled}
+          />
+        </FormControl>
+      );
+        default:
       break;
   }
 };

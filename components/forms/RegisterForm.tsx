@@ -7,6 +7,7 @@ import SubmitButton from "@/components/SubmitButton";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { createUser, getUser } from "@/lib/actions/patient.action";
+
 import {
   Form,
   FormControl,
@@ -32,6 +33,7 @@ import {
 import { SelectItem } from "@/components/ui/select";
 
 import Image from "next/image";
+import { FileUploader } from "../FileUploader";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
@@ -213,7 +215,105 @@ const RegisterForm = ({ user }: { user: User }) => {
           ))}
         </CustomFormField>
 
-        <div className="flex flex-col gap-3 xl:flex-row"></div>
+        <div className="flex flex-col gap-3 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="insuranceProvider"
+            label="Insurance Provider"
+            placeholder="BlueCross BlueShield"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="insurancePolicyNumber"
+            label="Insurance policy number"
+            placeholder="ABC123456"
+          />
+        </div>
+
+        <div className="flex flex-col gap-3 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="allergies"
+            label="Allegeries (if any)"
+            placeholder="Peanuts, Seafood"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="currentMedications"
+            label="Current Medications (if any)"
+            placeholder="Paracetamol, Aspirin"
+          />
+        </div>
+
+
+        <div className="flex flex-col gap-3 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="familyMedicalHistory"
+            label="Family medical history"
+            placeholder="Diabetes, Hypertension"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="pastMedicalHistory"
+            label="Past medical history"
+            placeholder="Asthma, Malaria"
+          />
+        </div>
+
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">Identification and Verification</h2>
+          </div>
+        </section>
+
+        <CustomFormField
+            fieldType={FormFieldType.SELECT}
+            control={form.control}
+            name="identificationType"
+            label="Identification Type"
+            placeholder="Select identification type"
+          >
+            {IdentificationTypes.map((type, i) => (
+              <SelectItem key={type + i} value={type}>
+                {type}
+              </SelectItem>
+            ))}
+          </CustomFormField>
+
+
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="identificationNumber"
+            label="Identification number"
+            placeholder="1234567890"
+          />
+
+
+
+<CustomFormField
+            fieldType={FormFieldType.SKELETON}
+            control={form.control}
+            name="identificationDocument"
+            label="Scanned copy of identification document"
+            renderSkeleton={(field) => (
+                <FormControl>
+                    <FileUploader files={field.value} onChange={field.onChange} />
+                </FormControl>
+            )}
+          />
+
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
