@@ -23,7 +23,15 @@ import { UserFormValidation } from "@/lib/validation";
 import { FormFieldType } from "./PatientForm";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { GenderOptions } from "@/constants";
+import {
+  Doctors,
+  GenderOptions,
+  IdentificationTypes,
+  PatientFormDefaultValues,
+} from "@/constants";
+import { SelectItem } from "@/components/ui/select";
+
+import Image from "next/image";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
@@ -64,17 +72,14 @@ const RegisterForm = ({ user }: { user: User }) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-12 flex-1"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-9 flex-1">
         <section className="mb-12 space-y-4">
           <h1 className="header">Welcome</h1>
           <p className="text-dark-700">Let us know more about yourself.</p>
         </section>
 
-        <section className="space-y-6">
-          <div className="mb-9 space-y-1">
+        <section className="space-y-3">
+          <div className="mb-5 space-y-1">
             <h2 className="sub-header">Personal Information</h2>
           </div>
         </section>
@@ -89,7 +94,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           iconAlt="user"
         />
 
-        <div className="flex flex-col gap-6 xl:flex-row">
+        <div className="flex flex-col gap-3 xl:flex-row">
           <CustomFormField
             fieldType={FormFieldType.INPUT}
             control={form.control}
@@ -109,7 +114,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           />
         </div>
 
-        <div className="flex flex-col gap-6 xl:flex-row">
+        <div className="flex flex-col gap-3 xl:flex-row">
           <CustomFormField
             fieldType={FormFieldType.DATE_PICKER}
             control={form.control}
@@ -143,9 +148,72 @@ const RegisterForm = ({ user }: { user: User }) => {
           />
         </div>
 
-        <div className="flex flex-col gap-6 xl:flex-row"></div>
+        <div className="flex flex-col gap-3 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="address"
+            label="Address"
+            placeholder="14th Street, New York"
+          />
 
-        <div className="flex flex-col gap-6 xl:flex-row"></div>
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="occupation"
+            label="Occupation"
+            placeholder="Software Engineer"
+          />
+        </div>
+
+        <div className="flex flex-col gap-3 xl:flex-row">
+          <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="emergencyContactName"
+            label="Emergency Contact Name"
+            placeholder="Guardian's Name"
+          />
+
+          <CustomFormField
+            fieldType={FormFieldType.PHONE_INPUT}
+            control={form.control}
+            name="emergencyContactNumber"
+            label="Emergency contact number"
+            placeholder="(555) 123-4567"
+          />
+        </div>
+
+        <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+            <h2 className="sub-header">Medical Information</h2>
+          </div>
+        </section>
+
+        <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="primaryPhysician"
+          label="Primary care physician"
+          placeholder="Select a physician"
+        >
+          {Doctors.map((doctor, i) => (
+            <SelectItem key={doctor.name + i} value={doctor.name}>
+              <div className="flex cursor-pointer items-center gap-2">
+                <Image
+                  src={doctor.image}
+                  width={32}
+                  height={32}
+                  alt="doctor"
+                  className="rounded-full border border-dark-500"
+                />
+                <p>{doctor.name}</p>
+              </div>
+            </SelectItem>
+          ))}
+        </CustomFormField>
+
+        <div className="flex flex-col gap-3 xl:flex-row"></div>
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
